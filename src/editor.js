@@ -5,19 +5,15 @@ import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
 import getCommonConfig from "./getCommonConfig";
 class Editor {
   constructor(ele, options = {}) {
-    const { langSupport } = options;
-    const commonConfig = getCommonConfig();
+    const { langSupport, onChange } = options;
+    const _onChange = onChange || function () {};
+    const commonConfig = getCommonConfig({
+      onChange: _onChange,
+    });
     const { extensions } = commonConfig;
     if (langSupport) {
       extensions.push(langSupport);
     }
-    // if(lang){
-    //   // import(`@codemirror/lang-${lang}`).then(console.log)
-    //   import(`@codemirror/lang-html`).then(({html})=>{
-    //     extensions.push(html())
-    //   })
-    // }
-    // console.log('x',[basicSetup, html()])
     const state = EditorState.create({
       extensions,
     });
@@ -32,6 +28,8 @@ class Editor {
     this.state = state;
   }
   getState() {}
+  getText() {}
+  setText() {}
 }
 
 export default Editor;

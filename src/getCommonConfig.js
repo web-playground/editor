@@ -1,7 +1,18 @@
 import { basicSetup } from "@codemirror/basic-setup";
-
-export default function getCommonConfig() {
+import { StateField } from "@codemirror/state";
+const handleChange = (onChange) =>
+  StateField.define({
+    create() {
+      return 0;
+    },
+    update(v, tr) {
+      if (tr.docChanged) {
+        onChange(tr.newDoc.toString());
+      }
+    },
+  });
+export default function getCommonConfig({ onChange }) {
   return {
-    extensions: [basicSetup],
+    extensions: [handleChange(onChange), basicSetup],
   };
 }
