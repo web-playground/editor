@@ -11,14 +11,17 @@
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.2.0",
+    "@vue/compiler-sfc": "^3.0.7",
     "husky": "=4",
     "lint-staged": ">=10",
     "prettier": "2.2.1",
-    "rollup": "^2.41.4"
+    "rollup": "^2.41.4",
+    "rollup-plugin-vue": "^6.0.0"
   },
   "scripts": {
     "dev": "rollup -c -w",
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "copy-iife-dist": "cp dist/*.js examples/browser-example"
   },
   "husky": {
     "hooks": {
@@ -27,5 +30,19 @@
   },
   "lint-staged": {
     "*.{js,css,md}": "prettier --write"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
   }
 }

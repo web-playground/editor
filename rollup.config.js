@@ -1,12 +1,34 @@
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import vuePlugin from "rollup-plugin-vue";
 
 export default [
   {
-    input: ["src/editor", "src/lang/html"],
+    input: [
+      "src/editor",
+      "src/lang/css",
+      "src/lang/html",
+      "src/wrapper/vue/vue",
+    ],
     output: {
       format: "es",
       dir: "dist/es",
+      external: ["@codemirror/state"],
+      // manualChunks(id) {
+      //   console.log("chunk id", id);
+      //   if (id.includes("node_modules/@codemirror/state")) {
+      //     return "cm-state";
+      //   }
+      // },
     },
+    plugins: [nodeResolve(), vuePlugin()],
+  },
+  {
+    input: ["src/wrapper/vue/HtmlEditor.vue"],
+    output: {
+      format: "es",
+      dir: "dist/vue",
+    },
+    plugins: [nodeResolve(), vuePlugin()],
   },
   {
     // input: ["src/editor"],//,

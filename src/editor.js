@@ -1,6 +1,9 @@
 // import { EditorState } from "@codemirror/state";
 // import { EditorView } from "@codemirror/view";
-import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
+import {
+  EditorState,
+  EditorView /*basicSetup*/,
+} from "@codemirror/basic-setup";
 // import { html } from "@codemirror/lang-html";
 import getCommonConfig from "./getCommonConfig";
 class Editor {
@@ -11,6 +14,7 @@ class Editor {
       onChange: _onChange,
     });
     const { extensions } = commonConfig;
+
     if (langSupport) {
       extensions.push(langSupport);
     }
@@ -18,8 +22,19 @@ class Editor {
       extensions,
     });
     const div = document.createElement("div");
+    const parentDiv = document.createElement("div");
+    const isComment = ele instanceof Comment;
     const parentDom =
-      typeof ele === "string" ? document.querySelector(ele) : ele;
+      typeof ele === "string"
+        ? document.querySelector(ele)
+        : isComment
+        ? parentDiv
+        : ele;
+    console.log({ ele, parentDom });
+    if (isComment) {
+      ele.after(parentDiv);
+    }
+
     this.view = new EditorView({
       state: this.state,
       dom: div,
